@@ -59,7 +59,7 @@ Format your response strictly with these exact Markdown sections:
 """
             with st.spinner("Generating your social media kit..."):
                 response = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
+                    model=[m.id for m in client.models.list().data if not any(x in m.id.lower() for x in ["whisper","guard","tts","orpheus"])][0],
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": source_text}
@@ -81,3 +81,4 @@ Format your response strictly with these exact Markdown sections:
                 )
         except Exception as e:
             st.error(f"Error: {str(e)}")
+
